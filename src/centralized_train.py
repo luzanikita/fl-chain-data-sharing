@@ -1,15 +1,4 @@
-from collections import OrderedDict
-from typing import List, Tuple
-
-import flwr as fl
-import matplotlib.pyplot as plt
-import numpy as np
 import torch
-import torch.nn as nn
-import torch.nn.functional as F
-import torchvision.transforms as transforms
-from flwr.common import Metrics
-from flwr_datasets import FederatedDataset
 from torch.utils.data import ConcatDataset, DataLoader
 
 from src.dataset import load_datasets
@@ -66,11 +55,11 @@ if __name__ == "__main__":
 
     trainloaders, valloaders, testloader = load_datasets()
 
-    trainloader = DataLoader(
+    trainloader: DataLoader = DataLoader(
         ConcatDataset([dl.dataset for dl in trainloaders]),
         batch_size=trainloaders[0].batch_size,
     )
-    valloader = DataLoader(
+    valloader: DataLoader = DataLoader(
         ConcatDataset([dl.dataset for dl in valloaders]),
         batch_size=valloaders[0].batch_size,
     )
