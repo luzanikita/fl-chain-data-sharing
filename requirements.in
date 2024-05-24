@@ -1,0 +1,8 @@
+flwr[simulation]
+flwr_datasets[vision]
+torch
+torchvision
+matplotlib
+pandas
+numpy
+scikit-learn
