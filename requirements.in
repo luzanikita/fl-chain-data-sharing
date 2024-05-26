@@ -1,4 +1,4 @@
-flwr[simulation]
+flwr[simulation]>=1.8.0,<2.0
 flwr_datasets[vision]
 torch
 torchvision

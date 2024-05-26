@@ -1,4 +1,7 @@
+from typing import Tuple
+
 import torch
+import torch.nn as nn
 from torch.utils.data import ConcatDataset, DataLoader
 
 from src.dataset import load_datasets
@@ -6,7 +9,7 @@ from src.model import Net
 from src.settings import DEVICE
 
 
-def train(net, trainloader, epochs: int, verbose=False):
+def train(net: nn.Module, trainloader: DataLoader, epochs: int, verbose: bool = False):
     """Train the network on the training set."""
     criterion = torch.nn.CrossEntropyLoss()
     optimizer = torch.optim.Adam(net.parameters())
@@ -30,7 +33,7 @@ def train(net, trainloader, epochs: int, verbose=False):
             print(f"Epoch {epoch+1}: train loss {epoch_loss}, accuracy {epoch_acc}")
 
 
-def test(net, testloader):
+def test(net: nn.Module, testloader: DataLoader) -> Tuple[float, float]:
     """Evaluate the network on the entire test set."""
     criterion = torch.nn.CrossEntropyLoss()
     correct, total, loss = 0, 0, 0.0

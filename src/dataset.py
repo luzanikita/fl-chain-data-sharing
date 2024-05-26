@@ -1,3 +1,5 @@
+from typing import List, Tuple
+
 import torchvision.transforms as transforms
 from datasets.utils.logging import disable_progress_bar
 from flwr_datasets import FederatedDataset
@@ -8,7 +10,7 @@ from src.settings import BATCH_SIZE, NUM_CLIENTS
 disable_progress_bar()
 
 
-def load_datasets():
+def load_datasets() -> Tuple[List[DataLoader], List[DataLoader], DataLoader]:
     fds = FederatedDataset(dataset="cifar10", partitioners={"train": NUM_CLIENTS})
 
     def apply_transforms(batch):
