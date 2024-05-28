@@ -141,3 +141,5 @@ dmypy.json
 
 # Project misc
 data/
+certificates/
+keys/
