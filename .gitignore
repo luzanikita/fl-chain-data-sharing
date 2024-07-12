@@ -143,3 +143,6 @@ dmypy.json
 data/
 certificates/
 keys/
+
+experiments/ezkl/inputs/
+experiments/ezkl/zk/
