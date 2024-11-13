@@ -1,5 +1,4 @@
-from flwr.client import ClientApp, NumPyClient
-from task import (
+from fl.tmp.task import (
     DEVICE,
     Net,
     get_weights,
@@ -8,6 +7,7 @@ from task import (
     test,
     train,
 )
+from flwr.client import ClientApp, NumPyClient
 
 # Load model and data (simple CNN, CIFAR-10)
 net = Net().to(DEVICE)

@@ -1,6 +1,8 @@
 from collections import OrderedDict
 from logging import INFO
+from typing import List
 
+import numpy as np
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
@@ -84,6 +86,10 @@ def test(net, testloader):
 
 
 def get_weights(net):
+    return [val.cpu().numpy() for _, val in net.state_dict().items()]
+
+
+def get_parameters(net: nn.Module) -> List[np.ndarray]:
     return [val.cpu().numpy() for _, val in net.state_dict().items()]
 
 

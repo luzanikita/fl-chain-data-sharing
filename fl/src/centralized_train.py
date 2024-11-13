@@ -1,4 +1,5 @@
-from typing import Tuple
+import random
+from typing import Optional, Tuple
 
 import torch
 import torch.nn as nn
@@ -18,6 +19,8 @@ def train(net: nn.Module, trainloader: DataLoader, epochs: int, verbose: bool = 
         correct, total, epoch_loss = 0, 0, 0.0
         for batch in trainloader:
             images, labels = batch["img"].to(DEVICE), batch["label"].to(DEVICE)
+            unique_labels = labels.unique()
+            labels = torch.where(labels == victim_label, random.randint(0, class_num), labels)
             optimizer.zero_grad()
             outputs = net(images)
             loss = criterion(outputs, labels)

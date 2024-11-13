@@ -1,13 +1,26 @@
 # How to start
 
-## Prepare Security Certificates
+## Setup Environment
 
+Create virutal env
+```sh
+python -m venv venv
+source venv/bin/activate
+```
+
+Install requirements
+```sh
+make install
+```
+
+Prepare security certificates and generate keys for 2 clients
 ```sh
 ./generate.sh 2
 ```
 
-## Run SuperLink (manager)
+## Run FL with Authentication
 
+Run SuperLink (manager)
 ```sh
 flower-superlink \
     --ssl-ca-certfile certificates/ca.crt \
@@ -18,8 +31,7 @@ flower-superlink \
     --auth-superlink-public-key keys/server_credentials.pub
 ```
 
-## Run SuperNode (client #1)
-
+Run SuperNode (client #1)
 ```sh
 flower-client-app client:app \
     --server 127.0.0.1:9092 \
@@ -29,8 +41,7 @@ flower-client-app client:app \
     --dir ./tmp
 ```
 
-## Run another SuperNode (client #2)
-
+Run another SuperNode (client #2)
 ```sh
 flower-client-app client:app \
     --server 127.0.0.1:9092 \
@@ -40,8 +51,7 @@ flower-client-app client:app \
     --dir ./tmp
 ```
 
-## Run Flower App (aggregation server)
-
+Run Flower App (aggregation server)
 ```sh
 flower-server-app server:app \
     --server 127.0.0.1:9091 \
