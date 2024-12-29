@@ -1,4 +1,4 @@
-flwr-nightly[rest,simulation]
+flwr[rest,simulation]
 flwr_datasets[vision]
 torch
 torchvision
@@ -6,3 +6,7 @@ matplotlib
 pandas
 numpy
 scikit-learn
+fastapi
+ezkl
+onnx
+types-requests

@@ -1,0 +1,115 @@
+@startuml
+package src.task {
+
+    class Net {
+        forward()
+        _get_weights()
+        _set_weights()
+        _train_local()
+        _test()
+        __init__()
+            conv1
+        pool
+        conv2
+        fc1
+        fc2
+        fc3
+    }
+}
+
+package src.zkp {
+
+    class AggregationSetup {
+        setup()
+        _export_model()
+        _setup_run_args()
+        __init__()
+        circuit
+        model_path
+        compiled_model_path
+        pk_path
+        vk_path
+        settings_path
+    }
+    class AggregationProver {
+        generate_witness()
+        prove()
+        __init__()
+        compiled_model_path
+        pk_path
+    }
+    class AggregationVerifier {
+        verify()
+        __init__()
+        settings_path
+        vk_path
+    }
+    class AggregateModel {
+        __init__()
+        forward()
+    }
+    class FaultyAggregateModel {
+        __init__()
+        forward()
+    }
+    AggregationSetup o-- AggregateModel
+    AggregationSetup o-- FaultyAggregateModel
+    AggregationProver ..left> AggregationSetup : <<uses>>
+    AggregationVerifier ..right> AggregationSetup : <<uses>>
+
+}
+
+package src.blockchain_api {
+
+    class BlockchainAPI {
+        invoke()
+        query()
+        __init__()
+            base_url
+    }
+}
+
+package src.client_app {
+
+    class FlowerClient {
+        fit()
+        evaluate()
+        _verify_inputs()
+        _submit_client_data()
+        __init__()
+            net
+        trainloader
+        valloader
+        local_epochs
+        lr
+        device
+        client_state
+        api
+    }
+    FlowerClient *-up- Net
+    FlowerClient o-up- BlockchainAPI
+    FlowerClient *-- AggregationVerifier
+
+}
+
+package src.strategy {
+
+    class BlockchainStrategy {
+        aggregate_fit()
+        _verify_local_models()
+        _submit_aggregated_model()
+        _save_client_data()
+        _save_aggregated_weights()
+        __init__()
+            fraction_fit
+        fraction_evaluate
+        min_available_clients
+        evaluate_metrics_aggregation_fn
+        initial_parameters
+        on_fit_config_fn
+        num_rounds
+    }
+    BlockchainStrategy o-up- BlockchainAPI
+    BlockchainStrategy *-- AggregationProver
+}
+@enduml

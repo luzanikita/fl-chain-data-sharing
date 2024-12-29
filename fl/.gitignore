@@ -145,5 +145,5 @@ certificates/
 keys/
 bin/
 
-fl/experiments/inputs/
-fl/experiments/zk/
+experiments/
+datasets
