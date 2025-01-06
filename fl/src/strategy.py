@@ -19,12 +19,16 @@ class BlockchainStrategy(fl.server.strategy.FedAvg):
         results: list[tuple[fl.server.client_proxy.ClientProxy, fl.common.FitRes]],
         failures: list[Union[tuple[ClientProxy, FitRes], BaseException]],
     ) -> tuple[Optional[Parameters], dict[str, Scalar]]:
+        """Perform aggregation by the server."""
         api = BlockchainAPI()
 
+        # Collect and verify the integrity of local models with the local model chaincode queries
         previous_global_model_hash, local_model_hashes = self._verify_local_models(api, results)
 
+        # Run weighted federated average
         aggregated_parameters, aggregated_metrics = super().aggregate_fit(server_round, results, failures)
 
+        # Submit new model to the ledger via the global model chaincode invokation
         assert aggregated_parameters is not None
         self._submit_aggregated_model(
             api,

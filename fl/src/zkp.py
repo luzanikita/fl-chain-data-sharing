@@ -46,10 +46,8 @@ class AggregationSetup:
         self.circuit = circuit
         self.circuit.eval()
 
-        # Create root directory if it doesn't exist
         os.makedirs(root_dir, exist_ok=True)
 
-        # Define paths
         self.model_path = os.path.join(root_dir, f"{model_prefix}network.onnx")
         self.compiled_model_path = os.path.join(root_dir, f"{model_prefix}network.compiled")
         self.pk_path = os.path.join(root_dir, f"{model_prefix}test.pk")
@@ -146,11 +144,12 @@ class AggregationVerifier:
         self.vk_path = vk_path
 
     def verify(self, proof_path: str) -> bool:
-        """Verify a proof"""
+        """Verify a proof for specific compiled model (circuit) and verifiation key"""
         return ezkl.verify(proof_path, self.settings_path, self.vk_path)
 
 
 def hash_model(weights: torch.Tensor, num_examples: torch.Tensor, precision: int = 7) -> Tuple[str, int]:
+    """Compute hash value of a flattened ML model weights with Poseidon hashing function."""
     field_elements = [ezkl.float_to_felt(w, precision) for w in weights] + [ezkl.float_to_felt(num_examples, precision)]
     hash_value = ezkl.poseidon_hash(field_elements)[0]
     hash_value_int = ezkl.felt_to_int(hash_value)
@@ -162,13 +161,19 @@ def compute_hash(
     parameters: Union[Parameters, List[np.ndarray]],
     num_examples: int,
 ) -> str:
+    """Compute hash value of ML model params."""
+
+    # First, convert inputs to list of vectors
     if isinstance(parameters, Parameters):
         weights_ndarrays: list[np.ndarray] = parameters_to_ndarrays(parameters)
     else:
         weights_ndarrays = parameters
 
+    # Flatten the weights
     preprocessed_input = preprocess([[weights_ndarrays, num_examples]])
     weights, num_examples = preprocessed_input
+
+    # Compute Poseidon hash
     model_hash, _ = hash_model(weights[0], num_examples[0])
 
     return model_hash
@@ -247,11 +252,15 @@ async def verify_proof(verifier: AggregationVerifier, proof_path: str) -> bool:
 
 
 def load_data(server_round: int, weights_dir: str = "experiments/aggregation/models"):
+    """Load data from the saved ML model checkpoints."""
+
+    # Load aggregated model
     with np.load(os.path.join(weights_dir, f"round-{server_round}-aggregated.npz")) as data:
         aggregated_weights = [data[name] for name in data.files if name != "num_examples"]
         total_num_examples = data["num_examples"][0]
         aggregated = [aggregated_weights, total_num_examples]
 
+    # Load clients' models used for aggregation
     clients = []
     for i in range(2):
         with np.load(os.path.join(weights_dir, f"round-{server_round}-client-{i}.npz")) as data:
@@ -272,6 +281,7 @@ def get_test_data():
 
 
 async def faulty_experiment():
+    """Run full ZKP experiment with setup, aggregatrion prove generation and validation. Faulty model was precomputed."""
     clients, _ = load_data(server_round=1)
     preprocessed_input = preprocess(clients)
 
@@ -307,8 +317,9 @@ async def faulty_experiment():
 
 
 async def simple_experiment():
-    # clients = get_test_data()
-    clients, aggregated = load_data(1)
+    """Run ZKP experiment on the toy model with small number of params."""
+    clients = get_test_data()
+    # clients, aggregated = load_data(1)
     preprocessed_input = preprocess(clients)
 
     circuit = AggregateModel()

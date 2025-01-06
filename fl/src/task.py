@@ -30,9 +30,11 @@ class Net(nn.Module):
         return self.fc3(x)
 
     def _get_weights(self):
+        """Convert model params to the list of vectors."""
         return [val.cpu().numpy() for _, val in self.state_dict().items()]
 
     def _set_weights(self, parameters):
+        """Set model params with the list of vectors."""
         params_dict = zip(self.state_dict().keys(), parameters)
         state_dict = OrderedDict({k: torch.tensor(v) for k, v in params_dict})
         self.load_state_dict(state_dict, strict=True)

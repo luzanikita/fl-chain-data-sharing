@@ -20,6 +20,8 @@ class BlockchainAPI:
         transient: Optional[list[bytes]] = None,
         endorsing_orgs: Optional[list[str]] = None,
     ) -> Dict[str, Any]:
+        """Perform chaincode invocation to submit some data to the ledger."""
+
         endpoint = f"{self.base_url}/invoke"
 
         payload = {
@@ -51,6 +53,8 @@ class BlockchainAPI:
         function_name: str,
         args: Union[List[str], str] = "",
     ) -> Dict[str, Any]:
+        """Perform chaincode query to read some data from the ledger."""
+
         endpoint = f"{self.base_url}/query"
 
         # Handle both string and list arguments
