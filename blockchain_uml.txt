@@ -1,0 +1,83 @@
+@startuml
+left to right direction
+package rest-api-go/web {
+
+    annotation asset-transfer-basic/rest-api-go/web {
+        +Serve(setups OrgSetup, port string)
+        +Initialize(setup OrgSetup): *OrgSetup, error
+        +newGrpcConnection(): *grpc.ClientConn
+        +newIdentity(): *identity.X509Identity
+        +newSign(): identity.Sign
+        -loadCertificate(filename string): *Certificate, error
+    }
+
+    class OrgSetup {
+        +OrgName: string
+        +MSPID: string
+        +CryptoPath: string
+        +CertPath: string
+        +KeyPath: string
+        +TLSCertPath: string
+        +PeerEndpoint: string
+        +GatewayPeer: string
+        +Gateway: Gateway
+    }
+
+    "asset-transfer-basic/rest-api-go/web" ..> OrgSetup : uses >
+
+}
+top to bottom direction
+
+package "asset-transfer-basic/chaincode-go/chaincode" {
+    class LocalModelSmartContract {
+        +Contract
+        +CreateLocalModel(ctx, args): error
+        +ReadLocalModel(ctx, args): *LocalModel, error
+        +QueryLocalModelsByRound(ctx, args): []*LocalModel, error
+        +LocalModelExists(ctx, args): bool, error
+    }
+
+    class LocalModel {
+        +Type: string
+        +LocalModelHash: string
+        +NumExamples: uint64
+        +RootGlobalModelHash: string
+        +RunID: string
+        +RoundID: uint64
+    }
+
+    ' Dependency - LocalModelSmartContract creates/manages LocalModels
+    LocalModelSmartContract ..up> LocalModel : manages >
+}
+
+package "asset-transfer-private-data/chaincode-go/chaincode" {
+    class GlobalModelSmartContract {
+        +Contract
+        +ReadGlobalModel(ctx, globalModelHash): *GlobalModelAsset, error
+        +CreateGlobalModel(ctx, args): error
+        +VerifyLocalModels(ctx, args): error
+        +GlobalModelExists(ctx, globalModelHash): bool, error
+    }
+
+    class GlobalModelAsset {
+        +Type: string
+        +GlobalModelHash: string
+        +PreviousGlobalModelHash: string
+        +LocalModelHashes: []string
+        +ZkpHash: string
+        +RunID: string
+        +RoundID: uint64
+    }
+
+    class GlobalModelPrivateDetails {
+        +GlobalModelHash: string
+        +AggregatedWeights: []byte
+    }
+
+    ' Dependency relationships
+    GlobalModelSmartContract ..> GlobalModelAsset : manages >
+    GlobalModelSmartContract ..> GlobalModelPrivateDetails : manages >
+    GlobalModelSmartContract ..up> LocalModelSmartContract : invokes >
+}
+
+@enduml
