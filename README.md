@@ -17,11 +17,11 @@ The blockchain component is built using Hyperledger Fabric and consists of:
 
 ### Smart Contracts
 
-- Local Model Chaincode ([`asset-transfer-basic/chaincode-go`](/blockchain/asset-transfer-basic/chaincode-go))
+- Local Model Chaincode ([`asset-transfer-basic/chaincode-go/chaincode/local_model_chaincode.go`](/blockchain/asset-transfer-basic/chaincode-go/chaincode/local_model_chaincode.go))
   - Handles metadata for local ML models (no weights)
   - Tracks model hashes, number of examples, round IDs etc.
   - Uses `LocalModelSmartContract` to manage `LocalModel` assets
-- Global Model Chaincode ([`asset-transfer-private-data/chaincode-go`](/blockchain/asset-transfer-private-data/chaincode-go))
+- Global Model Chaincode ([`asset-transfer-private-data/chaincode-go/chaincode/global_model_chaincode.go`](/blockchain/asset-transfer-private-data/chaincode-go/chaincode/global_model_chaincode.go))
   - Manages aggregated global models
   - Stores model weights in Private Data Collections
   - Uses `GlobalModelSmartContract` to manage `GlobalModelAsset` and `GlobalModelPrivateDetails`
@@ -29,7 +29,7 @@ The blockchain component is built using Hyperledger Fabric and consists of:
 
 ### REST API Gateway
 
-Golang gateway server ([`/rest-api-go/web`](/blockchain/rest-api-go/web))
+Golang gateway server ([`/rest-api-go`](/blockchain/rest-api-go))
   - Provides HTTP endpoints for organizations to interact with the blockchain
   - Implements `OrgSetup` for managing organization credentials and connections
   - Exposes methods to invoke and query chaincode
