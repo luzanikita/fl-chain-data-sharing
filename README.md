@@ -11,7 +11,7 @@ We used:
 
 ## Blockchain Component ([/blockchain](/blockchain))
 
-Class diagram can be found in `blockchain_uml.txt`
+Class diagram can be found in [`blockchain_uml.txt`](blockchain_uml.txt)
 
 The blockchain component is built using Hyperledger Fabric and consists of:
 
@@ -36,7 +36,7 @@ Golang gateway server ([`/rest-api-go/web`](/blockchain/rest-api-go/web))
 
 ## Federated Learning Component ([/fl](/fl))
 
-Class diagram can be found in `fl_uml.txt`
+Class diagram can be found in [`fl_uml.txt`](/fl_uml.txt)
 
 The FL system is built using Flower framework and consists of:
 
@@ -75,23 +75,23 @@ cd blockchain/test-network
 ./network.sh up createChannel -ca
 ```
 
-Deploy local model chaincode:
+2. Deploy local model chaincode:
 ```bash
 ./network.sh deployCC -ccn local_model_chaincode -ccp ../asset-transfer-basic/chaincode-go -ccl go -ccep "OR('Org2MSP.peer')" -ccv 1.0
 ```
 
-Deploy global model chaincode with private data collections:
+3. Deploy global model chaincode with private data collections:
 ```bash
 ./network.sh deployCC -ccn global_model_chaincode -ccp ../asset-transfer-private-data/chaincode-go/ -ccl go -ccep "OR('Org1MSP.member')" -cccg ../asset-transfer-private-data/chaincode-go/collections_config.json -ccv 2.0
 ```
 
-Start Org1 (aggregation server) gateway REST API:
+4. Start Org1 (aggregation server) gateway REST API:
 ```bash
 cd blockchain/asset-transfer-basic/rest-api-go
 go run main.go
 ```
 
-Start Org2 (client) gateway REST API:
+5. Start Org2 (client) gateway REST API:
 ```bash
 go run main.go -orgName Org2 -mspID Org2MSP -cryptoPath ../../test-network/organizations/peerOrganizations/org2.example.com -peerEndpoint localhost:9051 -gatewayPeer peer0.org2.example.com -port 3001
 ```
