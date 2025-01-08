@@ -7,6 +7,8 @@ We used:
 - EZKL for zero-knowledge proofs
 - Flower framework for federated learning
 
+DEMO Video: [Link](https://www.youtube.com/watch?v=RxbJgq6MiQE)
+
 # Project Structure
 
 ## Blockchain Component ([/blockchain](/blockchain))
