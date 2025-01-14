@@ -31,7 +31,7 @@ The blockchain component is built using Hyperledger Fabric and consists of:
 
 ### REST API Gateway
 
-Golang gateway server ([`/rest-api-go`](/blockchain/rest-api-go))
+Golang gateway server ([`/rest-api-go`](/blockchain/asset-transfer-basic/rest-api-go))
   - Provides HTTP endpoints for organizations to interact with the blockchain
   - Implements `OrgSetup` for managing organization credentials and connections
   - Exposes methods to invoke and query chaincode
