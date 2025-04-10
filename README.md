@@ -7,6 +7,7 @@ We used:
 - EZKL for zero-knowledge proofs
 - Flower framework for federated learning
 
+Full Thesis: [Link](https://thesis.cs.ut.ee/ed21d512-9750-4463-aaa0-87018b4fd0e3)
 DEMO Video: [Link](https://www.youtube.com/watch?v=RxbJgq6MiQE)
 
 # Project Structure
