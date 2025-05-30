@@ -7,7 +7,7 @@ We used:
 - EZKL for zero-knowledge proofs
 - Flower framework for federated learning
 
-Full Thesis: [Link](https://thesis.cs.ut.ee/ed21d512-9750-4463-aaa0-87018b4fd0e3)
+Full Thesis: [Link](https://thesis.cs.ut.ee/ed21d512-9750-4463-aaa0-87018b4fd0e3) (NB! Implementation details on page 70)
 
 DEMO Video: [Link](https://www.youtube.com/watch?v=RxbJgq6MiQE)
 
@@ -15,7 +15,10 @@ DEMO Video: [Link](https://www.youtube.com/watch?v=RxbJgq6MiQE)
 
 ## Blockchain Component ([/blockchain](/blockchain))
 
-Class diagram can be found in [`blockchain_uml.txt`](blockchain_uml.txt)
+Class diagram can be found in [`figs/blockchain_uml.txt`](/figs/blockchain_uml.txt)
+
+![Blockchain Class Diagram](/figs/blockchain_uml.svg)
+
 
 The blockchain component is built using Hyperledger Fabric and consists of:
 
@@ -40,7 +43,9 @@ Golang gateway server ([`/rest-api-go`](/blockchain/asset-transfer-basic/rest-ap
 
 ## Federated Learning Component ([/fl](/fl))
 
-Class diagram can be found in [`fl_uml.txt`](/fl_uml.txt)
+Class diagram can be found in [`figs/fl_uml.txt`](/figs/fl_uml.txt)
+
+![Federated Learning Class Diagram](/figs/fl_uml.svg)
 
 The FL system is built using Flower framework and consists of:
 
@@ -144,32 +149,21 @@ flower-supernode \
 flwr run . my-federation
 ```
 
+## System Sequence Diagrams
+
+### Federated Learning Data Sharing Flow
+<img src="figs/sequence_fl.png" alt="Sequence diagram for FL data sharing" width="100%" style="max-height: 800px; object-fit: contain;">
+
+### Blockchain Operations
+
+#### Reading Models from the Ledger
+<img src="figs/sequence_read_model.png" alt="Sequence diagram for chaincode querying" width="100%" style="max-height: 300px; object-fit: contain;">
+
+#### Creating Models on the Ledger
+<img src="figs/sequence_create_model.png" alt="Sequence diagram for chaincode invocation" width="100%" style="max-height: 500px; object-fit: contain;">
+
 ## License and Notice
 
 This project is licensed under the Apache License 2.0 - see the [LICENSE](LICENSE) file for details.
 
 As required by the Apache License, a [NOTICE](NOTICE) file is included with the distribution.
-
-### Source File Headers
-
-All source files in this project should include the following header:
-
-```
-Licensed to the Apache Software Foundation (ASF) under one
-or more contributor license agreements.  See the NOTICE file
-distributed with this work for additional information
-regarding copyright ownership.  The ASF licenses this file
-to you under the Apache License, Version 2.0 (the
-"License"); you may not use this file except in compliance
-with the License.  You may obtain a copy of the License at
-
-  http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing,
-software distributed under the License is distributed on an
-"AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
-KIND, either express or implied.  See the License for the
-specific language governing permissions and limitations
-under the License.
-```
-
