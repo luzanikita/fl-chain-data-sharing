@@ -32,3 +32,16 @@ bin/
 # Keep the other .gitignore files
 !blockchain/.gitignore
 !fl/.gitignore
+
+docs/
+
+# ZKP scaling experiment: heavy / regenerable artifacts and spec notes
+eval/.venv/
+eval/ezkl_repo/
+eval/runs/
+eval/scratch/
+eval/tools/*/target/
+eval/__pycache__/
+eval/**/*.pk
+eval/**/*witness*.json
+eval/00_decisions_so_far.md

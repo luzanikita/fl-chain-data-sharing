@@ -162,6 +162,27 @@ flwr run . my-federation
 #### Creating Models on the Ledger
 <img src="figs/sequence_create_model.png" alt="Sequence diagram for chaincode invocation" width="100%" style="max-height: 500px; object-fit: contain;">
 
+## ZKP Scaling Experiment ([/eval](/eval))
+
+Benchmark of the EZKL aggregation circuit (`fl/src/zkp.py`, used unmodified) for growing model size *d* and number of clients *K*: circuit rows, proving-key size, proof generation and verification time, and peak memory. Results, verdicts and known issues of the prototype are summarized in [eval/REPORT.md](eval/REPORT.md); the raw data is in `eval/results_fixed.csv`.
+
+<img src="eval/figs/zkp_scaling.png" alt="ZKP scaling results" width="60%">
+
+To reproduce (EZKL 15.6.3, Python 3.11):
+```bash
+uv venv --python 3.11 eval/.venv
+uv pip install --python eval/.venv/bin/python ezkl==15.6.3 torch==2.2.2 numpy==1.26.4 onnx==1.17.0 flwr==1.13.1 pandas matplotlib psutil pytest
+
+# Fixed-precision sweep over d at the smallest valid logrows (K=2)
+eval/.venv/bin/python eval/bench_zkp_fixed.py run --in 12 --ps 25 --legs 3 \
+    --sweep S1_fix --K 2 --d 100 1000 5000 10000 20000 40000 62006 --logrows auto
+
+# Figure, LaTeX table, and the numbers quoted in the report
+eval/.venv/bin/python eval/plot_zkp.py
+eval/.venv/bin/python eval/check_report_numbers.py
+```
+EZKL's public SRS download currently returns HTTP 403; see [eval/15_srs.md](eval/15_srs.md) for deriving the SRS files locally with `eval/tools/srs_downsize`.
+
 ## License and Notice
 
 This project is licensed under the Apache License 2.0 - see the [LICENSE](LICENSE) file for details.

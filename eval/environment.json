@@ -1,0 +1,21 @@
+{
+  "cpu_model": "Apple M4 Pro",
+  "logical_cpus": 12,
+  "perf_cores": 8,
+  "eff_cores": 4,
+  "ram_bytes": 25769803776,
+  "ram_gb": 24.0,
+  "os": "macOS 26.6.2 (macOS-26.6.2-arm64-arm-64bit)",
+  "python": "3.11.14",
+  "ezkl": "15.6.3",
+  "torch": "2.2.2",
+  "numpy": "1.26.4",
+  "onnx": "1.17.0",
+  "flwr": "1.13.1",
+  "pandas": "3.0.6",
+  "matplotlib": "3.11.2",
+  "ezkl_version_matches_pin": true,
+  "venv": "eval/.venv (uv, CPython 3.11.14)",
+  "other_heavy_load": "none intentionally; user away, interactive desktop session (Claude Code agent running)",
+  "date": "2026-10-10"
+}
